@@ -21,9 +21,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
     super.initState();
     getWeatherData();
   }
-  Future<Map<String, dynamic>> getWeatherData() async{
 
-
+  Future<Map<String, dynamic>> getWeatherData() async {
     try {
       String cityName = 'Lucknow';
       final res = await http.get(
@@ -47,7 +46,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
         throw 'Unexpected temperature data type';
       }
       return data;
-
     } catch (e) {
       throw e.toString();
     }
@@ -60,207 +58,201 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
       appBar: AppBar(
         title: const Text(
-        'Weather App',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-
-        ),
+          'Weather App',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
         actions: [
-          
-        IconButton(
-          onPressed: (){
-            setState(() {
-              getWeatherData();
-            });
-          },
-          icon: const Icon(Icons.refresh),
-          tooltip: 'Refresh',
-            
-        ),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                getWeatherData();
+              });
+            },
+            icon: const Icon(Icons.refresh),
+            tooltip: 'Refresh',
+          ),
         ],
-        ),
-        
-      body:  FutureBuilder(
+      ),
+
+      body: FutureBuilder(
         future: getWeatherData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          
           }
-          if (snapshot.hasError){
+          if (snapshot.hasError) {
             return Center(
               child: Text(snapshot.error.toString()),
             );
           }
 
-
           // defining API Stuff !!
-
 
           final data = snapshot.data!;
           final currentWeatherData = data['list'][0];
           final currentTemp = currentWeatherData['main']['temp'];
-          final currentSky = currentWeatherData['weather'][0]['main']; 
+          final currentSky = currentWeatherData['weather'][0]['main'];
           final pressure = currentWeatherData['main']['pressure'];
           final windspeed = currentWeatherData['wind']['speed'];
           final humidity = currentWeatherData['main']['humidity'];
-
-
-
-
+          final tempincelcius = currentTemp - 273.15;
 
           return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child:  Column(
-            children: [
-        
-              // main card
-        
-            SizedBox(
-              width: double.infinity,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                
-                ),
-                elevation: 20,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(
-                      sigmaX: 10,
-                      sigmaY: 10,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 16, bottom : 16 ),
-                      child: Column(
-                        children: [
-                          Text('$currentTemp K',
-                          style: const TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                          ),
-                           
-                          ),
-                    
-                          const SizedBox(height: 16,),
-                    
-                          Icon(
-                            currentSky == 'Clouds' ? Icons.cloud : currentSky == 'Clear' ? Icons.wb_sunny: currentSky == 'Rain' ? Icons.beach_access : Icons.wb_twilight,
-                            size: 64,),
-          
-                          const SizedBox(height: 16,),
-                    
-                          Text('$currentSky , Lucknow',
-                          style: const TextStyle(
-                            fontSize: 20,
-                          ),
-                          ),  
-                        ],
-                              
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                // main card
+
+                SizedBox(
+                  width: double.infinity,
+                  child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
                       ),
+                      elevation: 20,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(
+                            sigmaX: 10,
+                            sigmaY: 10,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 16, bottom: 16),
+                            child: Column(
+                              children: [
+                                Text(
+                                  '${tempincelcius.toStringAsFixed(2)}° C',
+                                  style: const TextStyle(
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                Icon(
+                                  currentSky == 'Clouds'
+                                      ? Icons.cloud
+                                      : currentSky == 'Clear'
+                                          ? Icons.wb_sunny
+                                          : currentSky == 'Rain'
+                                              ? Icons.beach_access
+                                              : Icons.wb_twilight,
+                                  size: 64,
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                Text(
+                                  '$currentSky , Lucknow',
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )),
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+                // forecast card
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Weather Forecast',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                )
-              ),
-            ),
-        
-              const SizedBox(height: 20,),
-              // forecast card 
-             const Align(
-               alignment: Alignment.centerLeft,
-               child:  Text('Weather Forecast',
-               style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  
                 ),
-               ),
-             ),
-        
-              const SizedBox(height:12 ,),
-              
-               SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                children: [
-                  for (int i = 0; i < 7; i++)
-                  HourlyForecast(
-                    time: data['list'][i]['dt_txt'].toString().substring(11, 16),
-                    icon: data['list'][i]['weather'][0]['main'] == 'Clouds' ? Icons.cloud : data['list'][i]['weather'][0]['main'] == 'Clear' ? Icons.wb_sunny: data['list'][i]['weather'][0]['main'] == 'Rain' ? Icons.beach_access : Icons.wb_twilight,
-                    temp: data['list'][i]['main']['temp'].toString(),
-                  
+
+                const SizedBox(
+                  height: 12,
+                ),
+
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      for (int i = 0; i < 7; i++)
+                        HourlyForecast(
+                          time: data['list'][i]['dt_txt']
+                              .toString()
+                              .substring(11, 16),
+                          icon: data['list'][i]['weather'][0]['main'] ==
+                                  'Clouds'
+                              ? Icons.cloud
+                              : data['list'][i]['weather'][0]['main'] == 'Clear'
+                                  ? Icons.wb_sunny
+                                  : data['list'][i]['weather'][0]['main'] ==
+                                          'Rain'
+                                      ? Icons.beach_access
+                                      : Icons.wb_twilight,
+                          temp: (data['list'][i]['main']['temp'] - 273.15)
+                              .toStringAsFixed(2),
+                        ),
+                    ],
                   ),
-                  
-                    
-              
-                ],),
-              ),
-              // Additional Information Card
-            const SizedBox(height: 16,),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Additional Information',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
                 ),
+                // Additional Information Card
+                const SizedBox(
+                  height: 16,
                 ),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Additional Information',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    AdditionalnfoItem(
+                      icon: Icons.water_drop,
+                      label: 'Humidity',
+                      value: humidity.toString(),
+                    ),
+                    AdditionalnfoItem(
+                      icon: Icons.air_rounded,
+                      label: 'Windspeed',
+                      value: windspeed.toString(),
+                    ),
+                    AdditionalnfoItem(
+                      icon: Icons.beach_access,
+                      label: 'Pressure',
+                      value: pressure.toString(),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            const SizedBox(height: 16,),
-              
-            Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              AdditionalnfoItem(
-                icon: Icons.water_drop,
-                label: 'Humidity',
-                value: humidity.toString(), 
-              ),
-              AdditionalnfoItem(
-                icon: Icons.air_rounded,
-                label: 'Windspeed',
-                value: windspeed.toString(), 
-              
-              ),
-              AdditionalnfoItem(
-                icon: Icons.beach_access,
-                label: 'Pressure',
-                value: pressure.toString(), 
-              ),
-              
-            ],
-                
-              )
-              
-              
-              
-            ],)
-              
-        
-        
-            
           );
         },
       ),
-      );
-
-      
-
-    
+    );
   }
 }
 
-
-
-
 // Trouble while calling API so restructered the code
-
 
 /*
 
