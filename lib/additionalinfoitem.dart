@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 
 class AdditionalnfoItem extends StatelessWidget {
   final IconData icon;
@@ -10,19 +8,20 @@ class AdditionalnfoItem extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.value,
-    super.key, 
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Icon(icon, size: 32 ,),
-        const SizedBox(height: 8 ),
-        Text(
-          label
+        Icon(
+          icon,
+          size: 32,
         ),
-        const SizedBox(height: 8 ),
+        const SizedBox(height: 8),
+        Text(label),
+        const SizedBox(height: 8),
         Text(
           value,
           style: const TextStyle(
