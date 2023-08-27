@@ -14,7 +14,7 @@ class WeatherScreen extends StatefulWidget {
 }
 
 
-// important point too understand :-
+// important point to understand :-
 
 
 //In Flutter, when you create a StatefulWidget, you need to define a corresponding state class 
@@ -137,7 +137,7 @@ class _WeatherScreenState extends State<WeatherScreen> { // private class using 
             );
           }
           if (snapshot.hasError) {
-            
+
             // snapshot :- . The snapshot contains information about whether the asynchronous operation 
             //is still in progress, has completed successfully, or has encountered an error.
 
