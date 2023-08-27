@@ -13,23 +13,62 @@ class WeatherScreen extends StatefulWidget {
   State<WeatherScreen> createState() => _WeatherScreenState();
 }
 
-class _WeatherScreenState extends State<WeatherScreen> {
+
+// important point too understand :-
+
+
+//In Flutter, when you create a StatefulWidget, you need to define a corresponding state class 
+//that manages the mutable state for that widget. This is done by creating a private class 
+//(usually prefixed with an underscore) that extends the State class, parameterized with the widget 
+//it's associated with.
+
+
+class _WeatherScreenState extends State<WeatherScreen> { // private class using "_" in the start of class name 
+  
+  //extends State<WeatherScreen>: This indicates that _WeatherScreenState extends the generic 
+  //State class and is associated with the WeatherScreen widget. This linkage between the widget 
+  //and its corresponding state class is important for Flutter to manage the widget's state.
+
+  
   double temp = 0;
   //int tempCelcius = 0;
+
+  // The state class is responsible for two things: holding some data you 
+  //can update and building the UI using that data.
+  // The state class typically includes methods that handle state changes, data updates, and UI rendering.
+
+
   @override
-  void initState() {
-    super.initState();
-    getWeatherData();
+  void initState() {   // initState() method to perform setup tasks when the widget is first created
+    super.initState(); // super.initState(); is a call to the initState() method of the superclass, which is State<WeatherScreen>
+    getWeatherData();  // used to fectch the weather data 
   }
 
   Future<Map<String, dynamic>> getWeatherData() async {
+
+    // async :- This keyword is used to define that the function will perform asynchronous operations.
+    // It allows you to use await inside the function and indicates that the function
+    // won't block the execution of other code while waiting for asynchronous tasks to complete.
+
     try {
       String cityName = 'Lucknow';
-      final res = await http.get(
-        Uri.parse(
+
+      // The await keyword is used to pause the execution of the code until 
+      //the HTTP request is complete and a response is received from the server.
+
+      final res = await http.get( 
+        Uri.parse( 
+          
+          // Uri.parse function is used to create a Uri object from a string 
+          //representation of a URI (Uniform Resource Identifier). 
+          
           'https://api.openweathermap.org/data/2.5/forecast?q=$cityName&APPID=$weatherapikey',
         ),
       );
+
+
+      //final data = jsonDecode(res.body);, decodes the JSON response from the server into a Dart map, 
+      //allowing you to access the weather-related data in a structured way.
 
       final data = jsonDecode(res.body);
 
