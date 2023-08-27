@@ -61,7 +61,7 @@ class _WeatherScreenState extends State<WeatherScreen> { // private class using 
           
           // Uri.parse function is used to create a Uri object from a string 
           //representation of a URI (Uniform Resource Identifier). 
-          
+
           'https://api.openweathermap.org/data/2.5/forecast?q=$cityName&APPID=$weatherapikey',
         ),
       );
@@ -86,7 +86,8 @@ class _WeatherScreenState extends State<WeatherScreen> { // private class using 
       }
       return data;
     } catch (e) {
-      throw e.toString();
+      throw e.toString(); // try and catch are used for exeption handling if any error occurs 
+                          // then try and catch reflects that error on the debug console 
     }
   }
 
@@ -117,7 +118,18 @@ class _WeatherScreenState extends State<WeatherScreen> { // private class using 
       ),
 
       body: FutureBuilder(
+
+        // Future is a core concept in asynchronous programming that represents a value or an error 
+        //that will be available at some point in the future. It's used to work with operations 
+        //that might take time to complete, such as fetching data from a network
+
         future: getWeatherData(),
+
+        // builder: (context, snapshot) { ... }: This is the callback function that defines
+        // how the UI should be built based on the status of the Future. It receives two parameters:
+        // context: The BuildContext of the widget.
+        // snapshot: A snapshot of the current state of the Future.
+
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -125,6 +137,10 @@ class _WeatherScreenState extends State<WeatherScreen> { // private class using 
             );
           }
           if (snapshot.hasError) {
+            
+            // snapshot :- . The snapshot contains information about whether the asynchronous operation 
+            //is still in progress, has completed successfully, or has encountered an error.
+
             return Center(
               child: Text(snapshot.error.toString()),
             );
