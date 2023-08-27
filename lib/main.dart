@@ -6,7 +6,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key});  //key parameter is used to provide a unique identifier for the widget, which helps Flutter to differentiate between widgets with the same type and to maintain the state of the widget.
 
   @override
   Widget build(BuildContext context) {
