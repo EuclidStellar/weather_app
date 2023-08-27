@@ -376,33 +376,45 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
 */
 
-// HourlyForecast(
-//                     time: '4:00',
-//                     icon: Icons.sunny,
-//                     temp: '300°F',
-//                   ),
-//                   HourlyForecast(
-//                     time: '5:00',
-//                     icon: Icons.wb_cloudy,
-//                     temp: '300°F',
-//                   ),
-//                   HourlyForecast(
-//                     time: '6:00',
-//                     icon: Icons.wb_incandescent,
-//                     temp: '300°F',
-//                   ),
-//                   HourlyForecast(
-//                     time: '7:00',
-//                     icon: Icons.wb_twilight,
-//                     temp: '300°F',
-//                   ),
-//                   HourlyForecast(
-//                     time: '8:00',
-//                     icon: Icons.wb_iridescent ,
-//                     temp: '300°F',
-//                   ),
-//                   HourlyForecast(
-//                     time: '9:00',
-//                     icon: Icons.cloud,
-//                     temp: '300°F',
-//                   ),
+
+// Previous Code
+
+
+/*
+
+
+
+HourlyForecast(
+                    time: '4:00',
+                    icon: Icons.sunny,
+                    temp: '300°F',
+                  ),
+                  HourlyForecast(
+                    time: '5:00',
+                    icon: Icons.wb_cloudy,
+                    temp: '300°F',
+                  ),
+                  HourlyForecast(
+                    time: '6:00',
+                    icon: Icons.wb_incandescent,
+                    temp: '300°F',
+                  ),
+                  HourlyForecast(
+                    time: '7:00',
+                    icon: Icons.wb_twilight,
+                    temp: '300°F',
+                  ),
+                  HourlyForecast(
+                    time: '8:00',
+                    icon: Icons.wb_iridescent ,
+                    temp: '300°F',
+                  ),
+                  HourlyForecast(
+                    time: '9:00',
+                    icon: Icons.cloud,
+                    temp: '300°F',
+                  ),
+
+
+
+*/
